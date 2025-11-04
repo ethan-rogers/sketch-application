@@ -158,7 +158,7 @@ class Sketchpad:
         else:
             # add undo
             if self.moving_select and len(self.selected_objects) > 0 and not self.new_select:
-                offset = [self.pointer.pos[0] - self.select_anchor[0], self.pointer.pos[1] - self.select_anchor[1]]
+                offset = [(self.pointer.pos[0] - self.select_anchor[0]) / self.global_scaler, (self.pointer.pos[1] - self.select_anchor[1]) / self.global_scaler]
                 Action(self.undo, self.redo, self.shapes, "move", self.selected_objects.copy(), offset)
 
             self.new_select= True
