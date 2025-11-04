@@ -20,9 +20,27 @@ Then, run the `main.py` file. If there are any issues running, it is most likely
 
 ![](images/example.png)
 
+### Scaling and Offseting
+
+You can scale the view window with the scroll wheel on your mouse. Scaling is automatically done based around the center. You can also move the viewport by right clicking and dragging. 
+
 ### Basic Drawing
 
-To adjust the viewport, right click to move around and scroll to scale. The pen tool allows you to create new freehand shapes. The select tool allows move or delete shapes you already made. The shape tool allows you to select a shape to create. These tools can be accessed with the buttons or shortcuts described below. 
+The pen tool allows you to create new freehand shapes. Pressing the pen icon also allows you to change the color and pen size. 
+
+By pressing the shape icon you can view the menu of shapes you can create. Currently, the program supports lines, rectangles, circles and elipses. 
+
+### Select the tool
+
+The select tool is the top icon. This allows you to select one shape by clicking it, or select a block of shapes by pressing an empty area then making a select region. Once you have shapes selected, you can move them around by clicking the blue box and dragging. You can also delete selected shapes with the `del` key. 
+
+### Anchor Functionality
+
+The anchor allows you to return to a certain offset and scaler and determines how the page is viewed when imported. To set an anchor, press the anchor icon and then the target icon. To return to the anchor you have set, or the default position if you have not yet set an anchor, press the anchor button then the home icon. 
+
+### Exporting
+
+Currently the program supports exporting to `.nts` format. `.nts` files allow you to reimport your work inside the program. In the future, we plan on adding functionality to the `.png` and `.pdf` buttons, which will allow you to export to formats that can be viewed independently of the PenGuin application. 
 
 ### Shortcuts
 
@@ -39,10 +57,6 @@ Below are the shortcuts currently implemented.
 * `h` hide / show tool bar. 
 *  `ctrl` + `z` undo your last edit.
 * `ctrl` + `y` redo your last edit.
-
-### Exporting
-
-Currently the program supports exporting to `.nts` format. `.nts` files allow you to reimport your work inside the program. In the future, we plan on adding functionality to the `.png` and `.pdf` buttons, which will allow you to export to formats that can be viewed independently of the PenGuin application. 
 
 ## Contributions
 
