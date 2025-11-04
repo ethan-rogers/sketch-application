@@ -88,7 +88,7 @@ class Shape:
         self.lst = sp.shapes
         self.size = size
         self.color = (0,0,0)
-        self.offset = [0,0]
+        
         self.points = np.empty((0,2))
 
         self.transformed_pointer = self.points.copy()
@@ -98,6 +98,8 @@ class Shape:
         self.action = Action(sp.undo, sp.redo, self.lst, "add", objects=[self])
 
         self.lst.append(self)
+
+        self.type = 0
 
 
 
@@ -170,12 +172,14 @@ class Shape:
         return x,y 
 
 
-
+    def to_list(self):
+        return [self.type, self.size, self.color, self.points]
 
 
 class FreeShape(Shape):
     def __init__(self, sp,size=2, color=(0, 0, 0)):
         super().__init__(sp, size, color)
+        self.type = 0
     
     def update(self):
         if not self.on_screen():
@@ -194,11 +198,14 @@ class FreeShape(Shape):
         for i in range(size - 1):
             draw_line(self.scrn, self.points[i], self.points[i+1], self.size, self.color, [x_off, y_off], scaler)
     
+    
 
 
 class Line(Shape):
     def __init__(self, sp, size = 2, color = (0,0,0)):
         super().__init__(sp, size, color)
+        self.type = 1
+
     def update(self):
         if not self.on_screen():
             return
@@ -226,6 +233,7 @@ class Line(Shape):
 class Rectangle(Shape):
     def __init__(self, sp, size=2, color=(0, 0, 0)):
         super().__init__(sp, size, color)
+        self.type = 2
     
     def update(self):
         if not self.on_screen():
@@ -252,6 +260,7 @@ class Rectangle(Shape):
 class Circle(Shape):
     def __init__(self, sp, size=2, color=(0, 0, 0)):
         super().__init__(sp, size, color)
+        self.type = 3
     
     def update(self):
         if not self.on_screen():

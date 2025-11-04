@@ -1,6 +1,7 @@
 from ui_elements import Panel, Button, Text
 import pygame
 from constants import path, hovered_grey, button_select
+import file_handler as fh
 
 
 # Main UI for the application
@@ -145,7 +146,48 @@ class Toolbar:
 
         self.anchor_buttons.hide()
 
+        # export / import
 
+        
+        file_button_width = 40
+        file_button_height = 22
+
+        file_button_padding = 26
+
+
+        file_y = self.pos_y + button_padding*4
+        file_button_count = 4
+        self.file_buttons = Panel(scrn, (sub_menu_x,file_y), (file_button_width + side_border*2, top_border*2 + file_button_padding*file_button_count))
+        self.side_panels.append(self.file_buttons)
+
+
+        import_button = Button(scrn, [sub_menu_x + side_border, file_y + top_border], [file_button_width, file_button_height])
+        import_button.add_text("Import", 16)
+        import_button.add_hovered_background((self.hovered_grey, self.hovered_grey, self.hovered_grey))
+        import_button.add_action(self.import_file)
+        self.file_buttons.add_button(import_button)
+
+        export_button = Button(scrn, [sub_menu_x + side_border, file_y + top_border + file_button_padding], [file_button_width, file_button_height])
+        export_button.add_text(".nts", 16)
+        export_button.add_hovered_background((self.hovered_grey, self.hovered_grey, self.hovered_grey))
+        export_button.add_action(self.export_nts)
+        self.file_buttons.add_button(export_button)
+
+        png_button = Button(scrn, [sub_menu_x + side_border, file_y + top_border + file_button_padding*2], [file_button_width, file_button_height])
+        png_button.add_text(".png", 16)
+        png_button.add_hovered_background((self.hovered_grey, self.hovered_grey, self.hovered_grey))
+        #export_button.add_action(self.go_home)
+        self.file_buttons.add_button(png_button)
+
+        pdf_button = Button(scrn, [sub_menu_x + side_border, file_y + top_border + file_button_padding*3], [file_button_width, file_button_height])
+        pdf_button.add_text(".pdf", 16)
+        pdf_button.add_hovered_background((self.hovered_grey, self.hovered_grey, self.hovered_grey))
+        #export_button.add_action(self.go_home)
+        self.file_buttons.add_button(pdf_button)
+
+
+
+        self.file_buttons.hide()
 
 
 
@@ -266,8 +308,7 @@ class Toolbar:
         self.select_tool(3)
         shown= self.anchor_buttons.shown()
 
-        for panel in self.side_panels:
-            panel.hide()
+
 
         self.anchor_buttons.hide(shown)
 
@@ -282,6 +323,8 @@ class Toolbar:
 
     def file_select(self):
         self.select_tool(4)
+        shown = self.file_buttons.shown()
+        self.file_buttons.hide(shown)
 
     def settings_select(self):
         self.select_tool(5)
@@ -316,3 +359,15 @@ class Toolbar:
 
     def hide(self):
         self.hidden = not self.hidden
+    
+    def import_file(self):
+        self.file_buttons.hide()
+
+        fh.import_nts(self.sketchpad)
+
+    def export_nts(self):
+        self.file_buttons.hide()
+
+        fh.export_nts(self.sketchpad)
+
+

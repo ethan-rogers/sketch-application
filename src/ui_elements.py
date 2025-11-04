@@ -1,5 +1,7 @@
 import pygame
 
+pygame.font.init()
+
 class Panel:
     def __init__(self, scrn, pos, dimension, color = (255, 255, 255)):
         self.scrn = scrn
@@ -65,6 +67,7 @@ class Panel:
 class Button:
     def __init__(self, scrn,  pos, dimensions):
         self.image = None
+        self.text = None
         self.scrn = scrn
         self.pos = pos
         self.dimensions = dimensions
@@ -75,6 +78,9 @@ class Button:
         self.action = None
 
         self.clicked = False
+
+        self.image_pos = [0,0]
+        
 
     def update(self):
         # check mouse
@@ -109,6 +115,9 @@ class Button:
         if self.image != None:
             self.scrn.blit(self.image, (self.image_pos))
         
+        if self.text != None:
+            self.text.update()
+        
     # add components
     def add_background(self, background):
         self.background = background
@@ -126,8 +135,9 @@ class Button:
 
         self.image_pos = [image_x_pos, image_y_pos]
     
-    def add_text(self):
-        pass
+    def add_text(self, text, size, color = (0,0,0)):
+        pos = (self.pos[0] + self.dimensions[0]/2, self.pos[1] + self.dimensions[1]/2)
+        self.text = Text(self.scrn, pos, text, size, color)
 
     def add_action(self, action):
         self.action = action
@@ -140,6 +150,10 @@ class Button:
         self.image_pos[0] += offset[0]
         self.image_pos[1] += offset[1]
 
+        if self.text != None:
+            pos = (self.pos[0] + self.dimensions[0]/2, self.pos[1] + self.dimensions[1]/2)
+            self.text.change_pos(pos)
+
     def replace_image_color(self ,old_col, new_col):
         if self.image == None:
             return
@@ -147,12 +161,37 @@ class Button:
         var = pygame.PixelArray(self.image)
         var.replace(old_col, new_col)
         del var
+    
+    def replace_text_color(self, new_col):
+        if self.text == None:
+            return
+        
+        self.text.change_col(new_col)
+    
+    
 
+# simple wrapper class
 class Text:
-    def __init__(self, scrn, pos, txt, color = (0,0,0)):
-        pass
+    def __init__(self, scrn, pos, txt, size, color = (0,0,0)):
+        self.scrn = scrn
+        self.pos = pos
+        self.txt = txt
+        self.size = size
+        
+        font = pygame.font.SysFont(None, self.size)
+        self.text_surface = font.render(self.txt, True, color)
+        self.text_rect = self.text_surface.get_rect()
+        self.text_rect.center = self.pos
 
     def update(self):
-        pass
-
+        self.scrn.blit(self.text_surface, self.text_rect)
     
+    def change_col(self, color):
+        font = pygame.font.SysFont(None, self.size)
+        self.text_surface = font.render(self.txt, True, color)
+        self.text_rect = self.text_surface.get_rect()
+        self.text_rect.center = self.pos
+    
+    def change_pos(self, pos):
+        self.pos = pos
+        self.text_rect.center = self.pos
