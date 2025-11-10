@@ -58,7 +58,6 @@ def export_nts(sp):
         dump(sp.anchored_scaler, save)
 
         for shape in sp.shapes:
-           print(shape.to_list())
            dump(shape.to_list(), save) 
 
 def export(format):

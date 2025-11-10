@@ -2,11 +2,11 @@
 
 ![](images/logo.png)
 
-PenGuin is an opensource Python drawing application designed for STEM note taking and problem solving. This application is meant to be light weight, easy to use and easily modifiable. 
+PenGuin is an opensource Python drawing application designed for STEM note taking and problem solving. This application is meant to be light weight, simple to use and easily modifiable. 
 
 ## How to run
 
-The project is still development so there is not a compiled executable. To run the demo, ensure python is downloaded on your machine. This project uses 3.13.7, but should be compadible with mose versions. After this, also run the following commands to isntall the dependencies. 
+The project is still development so there is not a compiled executable. To run the demo, ensure python is downloaded on your machine. This project uses 3.13.7, but should be compadible with most versions. After this, also run the following commands to isntall the dependencies. 
 ```
 pip install pygame
 pip install numpy

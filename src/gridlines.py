@@ -5,7 +5,7 @@ class GridLines:
     def __init__(self, sp):
         self.sp = sp
         self.scrn = sp.scrn
-        self.max_space = 200
+        self.max_space = 300
         self.min_space = 10
         self.spacing = 40
 
@@ -47,19 +47,19 @@ class GridLines:
         # draw y lines
         offset_y = (max_y/2) % line_space + (self.sp.global_offset[1] * self.sp.global_scaler) % line_space
         offset_x = (max_x/2) % line_space + (self.sp.global_offset[0] * self.sp.global_scaler) % line_space
-        for i in range(int(max_y / line_space)):
+        for i in range(-1,int(max_y / line_space) + 1):
             draw_line(self.scrn, (0,line_space*i + offset_y), (max_x,line_space*i + offset_y), 1, self.line_col)
 
         # draw x lines
-        for i in range(int(max_x / line_space)):
+        for i in range(-1, int(max_x / line_space) + 1):
             draw_line(self.scrn, (line_space*i + offset_x,0), (line_space*i + offset_x,max_y), 1, self.line_col)
 
         offset_y = (max_y/2) % cell_space + (self.sp.global_offset[1] * self.sp.global_scaler) % cell_space
         offset_x = (max_x/2) % cell_space + (self.sp.global_offset[0] * self.sp.global_scaler) % cell_space
         # draw y lines
-        for i in range(int(max_y / cell_space)):
+        for i in range(-1, int(max_y / cell_space) + 1):
             draw_line(self.scrn, (0,cell_space*i + offset_y), (max_x,cell_space*i + offset_y), 1, self.cell_col)
 
         # draw x lines
-        for i in range(int(max_x / cell_space)):
+        for i in range(-1, int(max_x / cell_space) + 1):
             draw_line(self.scrn, (cell_space*i + offset_x,0), (cell_space*i + offset_x,max_y), 1, self.cell_col)
