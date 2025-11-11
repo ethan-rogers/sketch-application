@@ -1,5 +1,6 @@
 from pickle import dump, load
-from drawings import FreeShape, Line, Rectangle, Circle
+from export_png import create_png
+from drawings import FreeShape, Line, Rectangle, Circle, Elipse
 import easygui
 
 
@@ -35,7 +36,8 @@ def import_nts(sp):
                     shape = Rectangle(sp, size, color)
                 elif type_shape == 3:
                     shape = Circle(sp, size, color)
-                
+                elif type_shape == 4:
+                    shape = Elipse(sp, size, color)
                 for p in points:
                     shape.add_point(p)
 
@@ -59,6 +61,10 @@ def export_nts(sp):
 
         for shape in sp.shapes:
            dump(shape.to_list(), save) 
+
+def export_png(sp):
+    file_name = easygui.filesavebox(msg="Save your file", title="Choose a file name", default="notes.png", filetypes=[["*.png", "PNG File"]])
+    create_png(sp.shapes, file_name)
 
 def export(format):
     if format == "nts":

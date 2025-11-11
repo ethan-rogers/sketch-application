@@ -103,9 +103,11 @@ class Shape:
 
 
 
-    # wut
+    # overload
     def update(self):
         pass
+
+    
 
     def move(self, point):
         self.points[:, 0] += point[0]
@@ -117,13 +119,17 @@ class Shape:
     # returns min_x, min_y, max_x, max_y in terms of screen cords (including global offset and scaler)
     def get_boundaries(self):
 
-
+        xmin, ymin, xmax, ymax = self.get_limits()
         
-        xmin, ymin = self.apply_transformation((np.min(self.points[:, 0]), np.min(self.points[:, 1])))
-        xmax, ymax = self.apply_transformation((np.max(self.points[:, 0]), np.max(self.points[:, 1])))
+        xmin, ymin = self.apply_transformation([xmin, ymin])
+        xmax, ymax = self.apply_transformation([xmax, ymax])
 
         return xmin, ymin, xmax, ymax
 
+    # similar to get boudaries but ignores transformations
+    def get_limits(self):
+        return np.min(self.points[:, 0]), np.min(self.points[:, 1]), np.max(self.points[:, 0]), np.max(self.points[:, 1])
+    
     def draw_boundary(self):
         min_x, min_y, max_x, max_y = self.get_boundaries()
 
@@ -174,6 +180,11 @@ class Shape:
 
     def to_list(self):
         return [self.type, self.size, self.color, self.points]
+    
+    def get_points(self):
+        return self.points
+    
+
 
 
 class FreeShape(Shape):
@@ -278,19 +289,28 @@ class Circle(Shape):
 
         super().add_point(point)
     
-    def get_boundaries(self):
+    def get_radius(self):
+        if np.size(self.points, axis=0) < 2:
+            return None
+        
+        center = self.points[0]
+        point = self.points[1]
+        return np.sqrt((center[0] - point[0])**2 + (center[1] - point[1])**2)
+
+    def get_limits(self):
         if np.size(self.points, axis=0) < 2:
             return self.points[0][0], self.points[0][1], self.points[0][0], self.points[0][1]
 
-        center = self.apply_transformation(self.points[0])
-        point = self.apply_transformation(self.points[1])
-        radius = np.sqrt((center[0] - point[0])**2 + (center[1] - point[1])**2)
+        center = self.points[0]
+
+        radius = self.get_radius()
 
         return center[0] - radius, center[1] - radius, center[0] + radius, center[1] + radius
 
 class Elipse(Shape):
     def __init__(self, sp, size=1, color=(0, 0, 0)):
         super().__init__(sp, size, color)
+        self.type = 4
 
     def update(self):
         if not self.on_screen():
@@ -308,12 +328,12 @@ class Elipse(Shape):
 
         super().add_point(point)
     
-    def get_boundaries(self):
+    def get_limits(self):
         if np.size(self.points, axis=0) < 2:
             return self.points[0][0], self.points[0][1], self.points[0][0], self.points[0][1]
 
-        x1, y1 = self.apply_transformation(self.points[0])
-        x2, y2 = self.apply_transformation(self.points[1])
+        x1, y1 = self.points[0]
+        x2, y2 = self.points[1]
 
         xmin, ymin = min(x2,x2 + (x1 - x2)*2 ),min(y1,y1 + (y2-y1)*2)
 

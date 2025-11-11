@@ -176,7 +176,7 @@ class Toolbar:
         png_button = Button(scrn, [sub_menu_x + side_border, file_y + top_border + file_button_padding*2], [file_button_width, file_button_height])
         png_button.add_text(".png", 16)
         png_button.add_hovered_background((self.hovered_grey, self.hovered_grey, self.hovered_grey))
-        #export_button.add_action(self.go_home)
+        png_button.add_action(self.export_png)
         self.file_buttons.add_button(png_button)
 
         pdf_button = Button(scrn, [sub_menu_x + side_border, file_y + top_border + file_button_padding*3], [file_button_width, file_button_height])
@@ -369,5 +369,10 @@ class Toolbar:
         self.file_buttons.hide()
 
         fh.export_nts(self.sketchpad)
+
+    def export_png(self):
+        self.file_buttons.hide()
+
+        fh.export_png(self.sketchpad)
 
 

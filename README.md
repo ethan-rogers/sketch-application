@@ -7,11 +7,12 @@ PenGuin is an opensource Python drawing application designed for STEM note takin
 ## How to run
 
 The project is still development so there is not a compiled executable. To run the demo, ensure python is downloaded on your machine. This project uses 3.13.7, but should be compadible with most versions. After this, also run the following commands to isntall the dependencies. 
-```
+```console
 pip install pygame
 pip install numpy
 pip install pickle5
 pip install easygui
+pip install Pillow
 ```
 
 Then, run the `main.py` file. If there are any issues running, it is most likely because the `path` variables in the `constants.py` file is incorrect. If you are not using VSCode or another IDE that sets the working directory to the root folder, change the path variables to `../`.   
