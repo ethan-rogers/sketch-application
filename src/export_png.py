@@ -31,7 +31,6 @@ def create_png(shapes, path):
     # calculate height
     size_ratio = (max_y - min_y + border*2) / (max_x - min_x + border*2)
     height = round(width * size_ratio)
-    print(height)
 
     # create image
     image = Image.new("RGB", (width, height), "white")
@@ -43,6 +42,7 @@ def create_png(shapes, path):
     # draw for each shape
     for s in shapes:
         typ, size, color, points = s.to_list()
+        size = int(size/2)
         points = points.copy()
         points[:, 0] -= min_x
         points[:, 1] -= min_y

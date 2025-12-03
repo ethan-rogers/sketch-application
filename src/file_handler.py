@@ -26,8 +26,6 @@ def import_nts(sp):
                 type_shape, size, color, points = load(save)
                 shape = None
 
-                print(type_shape, size, color)
-
                 if type_shape == 0:
                     shape = FreeShape(sp, size, color)
                 elif type_shape == 1:
@@ -52,7 +50,7 @@ def clear(sp):
 
 def export_nts(sp):
     file_name = easygui.filesavebox(msg="Save your file", title="Choose a file name", default="notes.nts", filetypes=[["*.nts", "Notes File"]])
-    if file_name == None:
+    if not file_name:
         return
 
     with open(file_name, 'wb') as save:
@@ -64,6 +62,10 @@ def export_nts(sp):
 
 def export_png(sp):
     file_name = easygui.filesavebox(msg="Save your file", title="Choose a file name", default="notes.png", filetypes=[["*.png", "PNG File"]])
+
+    if not file_name:
+        return
+
     create_png(sp.shapes, file_name)
 
 def export(format):
