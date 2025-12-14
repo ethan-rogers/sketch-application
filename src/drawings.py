@@ -77,7 +77,6 @@ def draw_elipse(scrn, p1, p2, size=1, color=(0,0,0),offset = [0,0], scaler=1):
 
 # TODO: fundamentally change the way transform are handled to utilize math with numpy
 
-# redo so first 4 arguments are replaced with sketchpad
 class Shape:
     def __init__(self, sp, size = 1, color = (0,0,0)):
         self.drawn_offset = sp.global_offset.copy()
@@ -102,8 +101,11 @@ class Shape:
         self.type = 0
 
         self.last_on_screen = True
-        self.last_offset = (0,0)
-        self.last_scaler = 1
+        self.last_checked_offset = (0,0)
+        self.last_checked_scaler = 1
+
+        self.last_applyed_offset = (0,0)
+        self.last_applyed_scaler = 1
 
 
 
@@ -146,12 +148,12 @@ class Shape:
         self.points = np.append(self.points, [self.remove_transformation(point)], axis=0)
     
     def on_screen(self):
-        if (self.sp.global_scaler == self.last_scaler and self.sp.global_offset[0] == self.last_offset[0] and self.sp.global_offset[1] == self.last_offset[1]):
+        if (self.sp.global_scaler == self.last_checked_scaler and self.sp.global_offset[0] == self.last_checked_offset[0] and self.sp.global_offset[1] == self.last_checked_offset[1]):
             return self.last_on_screen
 
 
-        self.last_scaler = self.sp.global_scaler
-        self.last_offset = self.sp.global_offset.copy()
+        self.last_checked_scaler = self.sp.global_scaler
+        self.last_checked_offset = self.sp.global_offset.copy()
 
         scrn_size = self.scrn.get_size()
 
@@ -163,8 +165,16 @@ class Shape:
     
     
     def apply_transformation(self, point):
+        
         scaler = self.sp.global_scaler
         x_off, y_off = self.sp.global_offset
+
+        if (self.last_applyed_scaler == scaler and self.last_applyed_offset[0] == x_off and self.last_applyed_offset[1] == y_off):
+            return point
+        
+        self.last_applyed_scaler = scaler
+        self.last_applyed_offset = [x_off, y_off]
+
 
         scrn_size = self.scrn.get_size()
         cx = round(scrn_size[0]/2)
