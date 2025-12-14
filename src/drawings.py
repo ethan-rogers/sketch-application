@@ -104,8 +104,6 @@ class Shape:
         self.last_checked_offset = (0,0)
         self.last_checked_scaler = 1
 
-        self.last_applyed_offset = (0,0)
-        self.last_applyed_scaler = 1
 
 
 
@@ -169,11 +167,8 @@ class Shape:
         scaler = self.sp.global_scaler
         x_off, y_off = self.sp.global_offset
 
-        if (self.last_applyed_scaler == scaler and self.last_applyed_offset[0] == x_off and self.last_applyed_offset[1] == y_off):
-            return point
-        
-        self.last_applyed_scaler = scaler
-        self.last_applyed_offset = [x_off, y_off]
+ 
+
 
 
         scrn_size = self.scrn.get_size()
