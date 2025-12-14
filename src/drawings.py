@@ -101,6 +101,10 @@ class Shape:
 
         self.type = 0
 
+        self.last_on_screen = True
+        self.last_offset = (0,0)
+        self.last_scaler = 1
+
 
 
     # overload
@@ -142,10 +146,20 @@ class Shape:
         self.points = np.append(self.points, [self.remove_transformation(point)], axis=0)
     
     def on_screen(self):
+        if (self.sp.global_scaler == self.last_scaler and self.sp.global_offset[0] == self.last_offset[0] and self.sp.global_offset[1] == self.last_offset[1]):
+            return self.last_on_screen
+
+
+        self.last_scaler = self.sp.global_scaler
+        self.last_offset = self.sp.global_offset.copy()
+
         scrn_size = self.scrn.get_size()
 
+        
+
         x1, y1, x2, y2 = self.get_boundaries()
-        return not ((x2 < 0) or (y2 < 0) or (x1 > scrn_size[0]) or (y1 > scrn_size[1]))
+        self.last_on_screen = not ((x2 < 0) or (y2 < 0) or (x1 > scrn_size[0]) or (y1 > scrn_size[1]))
+        return self.last_on_screen
     
     
     def apply_transformation(self, point):

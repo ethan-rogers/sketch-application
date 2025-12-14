@@ -6,7 +6,7 @@ import numpy as np
 
 def create_png(shapes, path):
     # have set width
-    width = 600
+    width = 1024
 
     border = 40
 
