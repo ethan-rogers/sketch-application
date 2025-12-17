@@ -16,7 +16,7 @@ class Toolbar:
         side_border = 2
         top_border = 10
         button_padding = 40
-        button_count = 8
+        button_count = 10
         
 
         self.height = top_border*2 + button_padding*(button_count-1) + 28
@@ -85,6 +85,18 @@ class Toolbar:
         redo_button.add_hovered_background((self.hovered_grey, self.hovered_grey, self.hovered_grey))
         redo_button.add_action(self.sketchpad.redo_action)
         self.main_menu.add_button(redo_button)
+
+        previous_page = Button(scrn, [self.pos_x + side_border, self.pos_y + top_border + button_padding*8], [28, 28])
+        previous_page.add_graphic(path + "icons/previous_page.png")
+        previous_page.add_hovered_background((self.hovered_grey, self.hovered_grey, self.hovered_grey))
+        previous_page.add_action(self.sketchpad.previous_page)
+        self.main_menu.add_button(previous_page)
+
+        next_page = Button(scrn, [self.pos_x + side_border, self.pos_y + top_border + button_padding*9], [28, 28])
+        next_page.add_graphic(path + "icons/next_page.png")
+        next_page.add_hovered_background((self.hovered_grey, self.hovered_grey, self.hovered_grey))
+        next_page.add_action(self.sketchpad.next_page)
+        self.main_menu.add_button(next_page)
 
         # other menu panels
         side_padding = 10

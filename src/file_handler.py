@@ -44,8 +44,7 @@ def import_nts(sp):
         sp.go_home()
 
 def clear(sp):
-    for shape in sp.shapes:
-        shape.erase()
+    sp.clear_page()
 
 
 def export_nts(sp):
@@ -57,7 +56,7 @@ def export_nts(sp):
         dump(sp.anchored_offset, save)
         dump(sp.anchored_scaler, save)
 
-        for shape in sp.shapes:
+        for shape in sp.get_shapes():
            dump(shape.to_list(), save) 
 
 def export_png(sp):
@@ -66,7 +65,7 @@ def export_png(sp):
     if not file_name:
         return
 
-    create_png(sp.shapes, file_name)
+    create_png(sp.get_shapes(), file_name)
 
 def export(format):
     if format == "nts":

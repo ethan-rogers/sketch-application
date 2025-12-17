@@ -84,7 +84,7 @@ class Shape:
 
         self.sp = sp
         self.scrn = sp.scrn
-        self.lst = sp.shapes
+        self.lst = sp.notebook[sp.current_page]
         self.size = size
         self.color = (0,0,0)
         
@@ -119,6 +119,7 @@ class Shape:
 
     def erase(self):
         self.lst.remove(self)
+        del self
 
     # returns min_x, min_y, max_x, max_y in terms of screen cords (including global offset and scaler)
     def get_boundaries(self):

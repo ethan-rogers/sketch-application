@@ -19,7 +19,7 @@ class Sketchpad:
 
         self.keys = {}
 
-        self.shapes = []
+        self.notebook = [[]]
         self.undo   = []
         self.redo   = []
         self.new_shape = True
@@ -35,6 +35,8 @@ class Sketchpad:
         self.anchored_offset = [0,0]
 
         self.gridlines = GridLines(self)
+
+        self.current_page = 0
         
 
 
@@ -50,7 +52,7 @@ class Sketchpad:
         elif self.tool == 2:
             self.update_shape()
 
-        for s in self.shapes:
+        for s in self.notebook[self.current_page]:
             s.update()
 
         self.tool_bar.update()
@@ -93,7 +95,7 @@ class Sketchpad:
                 else:
 
                     # check if we are selecting an object
-                    for s in self.shapes:
+                    for s in self.notebook[self.current_page]:
                         x_min, y_min, x_max, y_max = s.get_boundaries()
                         if self.pointer.pos[0] > x_min and self.pointer.pos[0] < x_max:
                             if self.pointer.pos[1] > y_min and self.pointer.pos[1] < y_max:
@@ -135,7 +137,7 @@ class Sketchpad:
 
                 # FIX ME
                 # this rectangle collision algorithm is flawed
-                for obj in self.shapes:
+                for obj in self.notebook[self.current_page]:
                     selected = False
                     x1c,y1c,x2c,y2c = obj.get_boundaries()
 
@@ -159,14 +161,14 @@ class Sketchpad:
             # add undo
             if self.moving_select and len(self.selected_objects) > 0 and not self.new_select:
                 offset = [(self.pointer.pos[0] - self.select_anchor[0]) / self.global_scaler, (self.pointer.pos[1] - self.select_anchor[1]) / self.global_scaler]
-                Action(self.undo, self.redo, self.shapes, "move", self.selected_objects.copy(), offset)
+                Action(self.undo, self.redo, self.notebook[self.current_page], "move", self.selected_objects.copy(), offset)
 
             self.new_select= True
         
         if keys[pygame.K_DELETE] and len(self.selected_objects) > 0:
             for obj in self.selected_objects:
-                self.shapes.remove(obj)
-            Action(self.undo, self.redo, self.shapes, "del", self.selected_objects.copy())
+                self.notebook[self.current_page].remove(obj)
+            Action(self.undo, self.redo, self.notebook[self.current_page], "del", self.selected_objects.copy())
             self.selected_objects.clear()
         
 
@@ -193,7 +195,7 @@ class Sketchpad:
                 shape = FreeShape(self)
                 self.new_shape = False
             
-            self.shapes[-1].add_point(self.pointer.pos)
+            self.notebook[self.current_page][-1].add_point(self.pointer.pos)
             
         else:
             self.new_shape = True
@@ -213,7 +215,7 @@ class Sketchpad:
 
                 self.new_shape = False
             
-            self.shapes[-1].add_point(self.pointer.pos)
+            self.notebook[self.current_page][-1].add_point(self.pointer.pos)
             
         else:
             self.new_shape = True
@@ -258,6 +260,23 @@ class Sketchpad:
     def set_home(self):
         self.anchored_scaler    = self.global_scaler
         self.anchored_offset   = self.global_offset.copy()
+
+    def get_shapes(self):
+        return self.notebook[self.current_page]
+    
+    def next_page(self):
+        if self.current_page >= len(self.notebook) - 1:
+            self.notebook.append([])
+        
+        self.current_page += 1
+    
+    def previous_page(self):
+        if self.current_page != 0:
+            self.current_page -= 1
+    
+    def clear_page(self):
+        self.notebook[self.current_page] = []
+            
     
 # handles mouse position for the sketchpad
 class Pointer:
