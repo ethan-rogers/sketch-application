@@ -168,7 +168,7 @@ class Toolbar:
 
 
         file_y = self.pos_y + button_padding*4
-        file_button_count = 4
+        file_button_count = 5
         self.file_buttons = Panel(scrn, (sub_menu_x,file_y), (file_button_width + side_border*2, top_border*2 + file_button_padding*file_button_count))
         self.side_panels.append(self.file_buttons)
 
@@ -185,13 +185,19 @@ class Toolbar:
         export_button.add_action(self.export_nts)
         self.file_buttons.add_button(export_button)
 
-        png_button = Button(scrn, [sub_menu_x + side_border, file_y + top_border + file_button_padding*2], [file_button_width, file_button_height])
+        export_nbk_button = Button(scrn, [sub_menu_x + side_border, file_y + top_border + file_button_padding*2], [file_button_width, file_button_height])
+        export_nbk_button.add_text(".nbk", 16)
+        export_nbk_button.add_hovered_background((self.hovered_grey, self.hovered_grey, self.hovered_grey))
+        export_nbk_button.add_action(self.export_nbk)
+        self.file_buttons.add_button(export_nbk_button)
+
+        png_button = Button(scrn, [sub_menu_x + side_border, file_y + top_border + file_button_padding*3], [file_button_width, file_button_height])
         png_button.add_text(".png", 16)
         png_button.add_hovered_background((self.hovered_grey, self.hovered_grey, self.hovered_grey))
         png_button.add_action(self.export_png)
         self.file_buttons.add_button(png_button)
 
-        pdf_button = Button(scrn, [sub_menu_x + side_border, file_y + top_border + file_button_padding*3], [file_button_width, file_button_height])
+        pdf_button = Button(scrn, [sub_menu_x + side_border, file_y + top_border + file_button_padding*4], [file_button_width, file_button_height])
         pdf_button.add_text(".pdf", 16)
         pdf_button.add_hovered_background((self.hovered_grey, self.hovered_grey, self.hovered_grey))
         #export_button.add_action(self.go_home)
@@ -375,12 +381,17 @@ class Toolbar:
     def import_file(self):
         self.file_buttons.hide()
 
-        fh.import_nts(self.sketchpad)
+        fh.import_file(self.sketchpad)
 
     def export_nts(self):
         self.file_buttons.hide()
 
         fh.export_nts(self.sketchpad)
+
+    def export_nbk(self):
+        self.file_buttons.hide()
+
+        fh.export_nbk(self.sketchpad)
 
     def export_png(self):
         self.file_buttons.hide()

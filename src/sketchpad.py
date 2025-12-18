@@ -276,6 +276,10 @@ class Sketchpad:
     
     def clear_page(self):
         self.notebook[self.current_page] = []
+
+    def clear_book(self):
+        self.current_page = 0
+        self.notebook = [[]]
             
     
 # handles mouse position for the sketchpad
