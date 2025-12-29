@@ -37,6 +37,9 @@ class Sketchpad:
         self.gridlines = GridLines(self)
 
         self.current_page = 0
+
+        self.color = (0,0,0)
+
         
 
 
@@ -192,7 +195,7 @@ class Sketchpad:
         buttons = pygame.mouse.get_pressed()
         if buttons[0] and self.pointer.pos != None:
             if self.new_shape:
-                shape = FreeShape(self)
+                shape = FreeShape(self, 2, self.color)
                 self.new_shape = False
             
             self.notebook[self.current_page][-1].add_point(self.pointer.pos)
@@ -205,13 +208,13 @@ class Sketchpad:
         if buttons[0] and self.pointer.pos != None:
             if self.new_shape:
                 if self.shape == 0:
-                    shape = Line(self)
+                    shape = Line(self, 2, self.color)
                 elif self.shape == 1:
-                    shape = Rectangle(self)
+                    shape = Rectangle(self, 2, self.color)
                 elif self.shape == 2:
-                    shape = Circle(self)
+                    shape = Circle(self, 2, self.color)
                 elif self.shape == 3:
-                    shape = Elipse(self)
+                    shape = Elipse(self, 2, self.color)
 
                 self.new_shape = False
             
@@ -280,6 +283,9 @@ class Sketchpad:
     def clear_book(self):
         self.current_page = 0
         self.notebook = [[]]
+    
+    def change_col(self, col):
+        self.color = col
             
     
 # handles mouse position for the sketchpad

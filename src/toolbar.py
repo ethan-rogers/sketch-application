@@ -6,6 +6,8 @@ import file_handler as fh
 
 # Main UI for the application
 class Toolbar:
+
+    # insanely shitty constructor, should be doing all that
     def __init__(self, scrn, sketchpad):
         self.scrn = scrn
         self.sketchpad = sketchpad
@@ -47,7 +49,7 @@ class Toolbar:
         pen_button = Button(scrn, [self.pos_x + side_border, self.pos_y + top_border + button_padding], [28, 28])
         pen_button.add_graphic(path + "icons/pen.png")
         pen_button.add_hovered_background((self.hovered_grey, self.hovered_grey, self.hovered_grey))
-        pen_button.add_action(self.pen_select)
+        pen_button.add_action(self.pen_button)
         self.main_menu.add_button(pen_button)
 
         shapes_button = Button(scrn, [self.pos_x + side_border, self.pos_y + top_border + button_padding*2], [28, 28])
@@ -104,7 +106,6 @@ class Toolbar:
         
         sub_menu_x = self.pos_x + self.width + side_padding
 
-        # TODO: Create color selection panel
 
         # create  tool panel
         tool_y = self.pos_y + button_padding*2
@@ -203,9 +204,38 @@ class Toolbar:
         #export_button.add_action(self.go_home)
         self.file_buttons.add_button(pdf_button)
 
-
-
         self.file_buttons.hide()
+
+        
+        color_y = self.pos_y + button_padding
+        color_button_count_x = 2
+        color_button_count_y = 4
+
+        color_button_width = 16
+        color_button_padding = 8
+
+        color_width = color_button_width * color_button_count_x + color_button_padding * (color_button_count_x + 1)
+        color_height = color_button_width * color_button_count_y + color_button_padding * (color_button_count_y + 1)
+
+        self.color_panel = Panel(scrn, (sub_menu_x,color_y), (color_width, color_height))
+        self.side_panels.append(self.color_panel)
+
+        self.color_panel.hide()
+
+        col = 0
+        for r in range(2):
+            for g in range(2):
+                for b in range(2):
+                    row = b
+
+                    
+                    color_button = Button(scrn, [sub_menu_x + row * (color_button_width + color_button_padding) + color_button_padding, color_y + col * (color_button_width + color_button_padding) + color_button_padding], [color_button_width, color_button_width])
+                    color_button.add_background((r*255, g*255, b*255))
+                    color_button.add_hovered_background((abs(r*255 - 30), abs(g*255 - 30), abs(b*255 - 30)))
+                    color_button.add_action(self.change_col)
+                    color_button.add_parameter((r*255, g*255, b*255))
+                    self.color_panel.add_button(color_button)
+                col += 1
 
 
 
@@ -316,6 +346,13 @@ class Toolbar:
     def pen_select(self):
         self.select_tool(1)
 
+    def pen_button(self):
+        shown = self.color_panel.shown()
+        self.select_tool(1)
+
+        self.color_panel.hide(shown)
+
+
     def shape_select(self):
         shown = self.shape_selection.shown()
         self.select_tool(2)
@@ -397,5 +434,10 @@ class Toolbar:
         self.file_buttons.hide()
 
         fh.export_png(self.sketchpad)
+    
+    def change_col(self, col):
+        self.sketchpad.change_col(col)
+        self.color_panel.hide()
 
+    
 

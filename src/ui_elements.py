@@ -23,8 +23,12 @@ class Panel:
     
     def shown(self):
         return self.active
+    
+    def toggle(self):
+        self.active = not self.active
 
     def update(self):
+
         if not self.active:
             return
 
@@ -79,6 +83,8 @@ class Button:
 
         self.clicked = False
 
+        self.parameters = []
+
         self.image_pos = [0,0]
         
 
@@ -102,7 +108,7 @@ class Button:
             if not self.clicked and hovered:
                 self.clicked = True
                 if self.action != None:
-                    self.action()
+                    self.action(*self.parameters)
                 
         else:
             self.clicked = False
@@ -167,6 +173,9 @@ class Button:
             return
         
         self.text.change_col(new_col)
+
+    def add_parameter(self, parameter):
+        self.parameters.append(parameter)
     
     
 

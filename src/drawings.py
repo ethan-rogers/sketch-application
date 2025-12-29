@@ -86,7 +86,7 @@ class Shape:
         self.scrn = sp.scrn
         self.lst = sp.notebook[sp.current_page]
         self.size = size
-        self.color = (0,0,0)
+        self.color = color
         
         self.points = np.empty((0,2))
 
