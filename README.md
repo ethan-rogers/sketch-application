@@ -41,7 +41,7 @@ The anchor allows you to return to a certain offset and scaler and determines ho
 
 ### Exporting
 
-Currently the program supports exporting to `.nts` format. `.nts` files allow you to reimport your work inside the program. In the future, we plan on adding functionality to the `.png` and `.pdf` buttons, which will allow you to export to formats that can be viewed independently of the PenGuin application. 
+Currently the program supports exporting to `.nts` format. `.nts` files allow you to reimport your work inside the program. The program also has `.png` and `.pdf` buttons, which allow you to export to formats that can be viewed independently of the PenGuin application. 
 
 ### Shortcuts
 
