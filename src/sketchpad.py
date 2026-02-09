@@ -267,6 +267,9 @@ class Sketchpad:
     def get_shapes(self):
         return self.notebook[self.current_page]
     
+    def get_notebook(self):
+        return self.notebook
+    
     def next_page(self):
         if self.current_page >= len(self.notebook) - 1:
             self.notebook.append([])

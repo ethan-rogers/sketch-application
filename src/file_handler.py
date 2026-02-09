@@ -2,6 +2,7 @@ from pickle import dump, load
 from export_png import create_png
 from drawings import FreeShape, Line, Rectangle, Circle, Elipse
 import easygui
+from fpdf import FPDF
 
 
 # saving settings
@@ -128,6 +129,27 @@ def export_png(sp):
         return
 
     create_png(sp.get_shapes(), file_name)
+
+def export_pdf(sp):
+    file_name = easygui.filesavebox(msg="Save your file", title="Choose a file name", default="notes.pdf", filetypes=[["*.pdf", "PDF File"]])
+
+    if not file_name:
+        return
+
+    pdf = FPDF()
+    
+
+    for i, shapes in enumerate(sp.get_notebook()):
+        name = file_name.replace(".pdf", f"{i}.png")
+        create_png(shapes, name)
+        pdf.add_page()
+        pdf.image(name, x=0, y=0, w=210)
+
+    pdf.output(file_name, "F")
+
+
+
+
 
 def export(format):
     if format == "nts":
